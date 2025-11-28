@@ -16,11 +16,11 @@ const scene = new THREE.Scene()
 const geometry = new THREE.BoxGeometry(1, 1, 1) // Vormt de box
 const  material = new THREE.MeshBasicMaterial({ color: 0xff000 }) // Texture (Kleur in dit geval)
 const mesh = new THREE.Mesh(geometry, material) // Maak het 3d object, box met texture
-mesh.position.y = 2
-mesh.position.x = -1
+mesh.position.x = 2
+mesh.position.y = -1
 mesh.position.z = -2
 
-mesh.position.normalize()
+mesh.position.normalize() // Normalizeerd de posities
 console.log(mesh.position.length())
 
 scene.add(mesh)
