@@ -1,42 +1,58 @@
 import * as THREE from 'three'
+import gsap from 'gsap'
 
-// Sizes
-const sizes = {
-    width: 800,
-    height: 800,
-}
-
+/**
+ * Base
+ */
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
 
-// Object
-const geometry = new THREE.BoxGeometry(1, 1, 1) // Vormt de box
-const  material = new THREE.MeshBasicMaterial({ color: 0xff000 }) // Texture (Kleur in dit geval)
-const mesh = new THREE.Mesh(geometry, material) // Maak het 3d object, box met texture
-mesh.position.x = 2
-mesh.position.y = -1
-mesh.position.z = -2
-
-mesh.position.normalize() // Normalizeerd de posities
-console.log(mesh.position.length())
-
+/**
+ * Base
+ */
+const geometry = new THREE.BoxGeometry(1, 1, 1)
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-// Camera 
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height) // 75 = FOV
+/**
+ * Sizes
+ */
+const sizes = {
+    width: 800,
+    height: 600
+}
+
+/**
+ * Camera
+ */
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.z = 3
 scene.add(camera)
 
-console.log(mesh.position.distanceTo(camera.position)) //Vector 3 (Alles na .position)
-
-// Rendering
+/**
+ * Renderer
+ */
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
-
 renderer.setSize(sizes.width, sizes.height)
 
-renderer.render(scene, camera)
+/**
+ * Animate
+ */
+gsap.to(mesh.position, { duration: 1, delay: 1, x: 2 })
+
+const tick = () =>
+{
+    // Render
+    renderer.render(scene, camera)
+
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick)
+}
+
+tick()
